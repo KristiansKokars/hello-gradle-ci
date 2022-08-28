@@ -1,15 +1,19 @@
-﻿format_version: 10
+﻿---
+format_version: 10
 common:
   deploy-tasks: &deploy-tasks
     - exec:
-        command: echo
+        command: bash
         arguments:
-          - "Deployment of hello-app on ${ENV_NAME} is starting.."
+          - -c
+          - echo "Deployment of hello-app on $ENV_NAME is starting.."
   test-tasks: &test-tasks
     - exec:
-        command: echo
+        command: bash
         arguments:
-          - "Testing of hello-app on ${ENV_NAME} is starting.."
+          - -c
+          - echo "Testing of hello-app on $ENV_NAME is starting.."
+
 pipelines:
   hello-app:
     group: java-spring-apps
@@ -25,28 +29,38 @@ pipelines:
                 - exec:
                     command: echo
                     arguments:
-                      - "Building hello-app"    
+                      - "Building hello-app..."
+                - exec:
+                    command: bash
+                    arguments:
+                      - -c
+                      - docker build -t mtararujs/hello-app:latest .
+                - exec:
+                    command: bash
+                    arguments:
+                      - -c
+                      - docker push mtararujs/hello-app:lates
       - deploy-dev:
           environment_variables:
-              ENV_NAME: dev
+            ENV_NAME: dev
           jobs:
             deploy-dev:
               tasks: *deploy-tasks
       - test-dev:
           environment_variables:
-              ENV_NAME: dev
+            ENV_NAME: dev
           jobs:
             test-dev:
               tasks: *test-tasks
       - deploy-prd:
           environment_variables:
-              ENV_NAME: prd
+            ENV_NAME: prd
           jobs:
             deploy-dev:
               tasks: *deploy-tasks
       - test-prd:
           environment_variables:
-              ENV_NAME: prd
+            ENV_NAME: prd
           jobs:
             test-dev:
               tasks: *test-tasks
