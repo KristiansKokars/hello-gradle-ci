@@ -1,11 +1,11 @@
 ﻿---
 format_version: 10
 pipelines:
-  hello_app:
+  hello-app:
     group: java-spring-apps
     materials:
       mygit:
-        git: http://example.com/mygit.git
+        git: https://github.com/kristianskokars/hello-gradle-ci.git
         branch: main
     stages:
       - build-app:
