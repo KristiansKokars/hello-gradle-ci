@@ -22,10 +22,10 @@ pipelines:
           jobs:
             build-app:
               tasks:
-              - exec:
-                  command: echo
-                  arguments:
-                    - "Building hello-app"
+                - exec:
+                    command: echo
+                    arguments:
+                      - "Building hello-app"    
       - deploy-dev:
           environment_variables:
               ENV_NAME: dev
