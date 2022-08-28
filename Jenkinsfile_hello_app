@@ -6,34 +6,35 @@ pipeline {
     stages {
         stage('build-app') {
             steps {
-                echo "Build app"
+                sh "docker build -t kristianskokars/hello-app:latest ."
+                sh "docker push kristianskokars/hello-app:latest"
             }   
         }
         stage('deploy-dev') {
             steps {
                 script {
-                    deploy("DEV")
+                    deploy("dev")
                 }
             }   
         }
         stage('test-dev') {
             steps {
                 script {
-                    test("DEV")
+                    test("dev")
                 }
             }   
         }
         stage('deploy-prd') {
             steps {
                 script {
-                    deploy("PRD")
+                    deploy("prd")
                 }
             }   
         }
         stage('test-prd') {
             steps {
                 script {
-                    deploy("PRD")
+                    deploy("prd")
                 }
             }
         }
@@ -42,6 +43,7 @@ pipeline {
 
 def deploy(String environment) {
     echo "Deployment of hello-app to ${environment}"
+    sh "kubectl set image deployment hello-app-${environment} hello-app-${environment}-pod kristianskokars/hello-app/latest"
 }
 
 def test(String environment) {
