@@ -1,5 +1,5 @@
 ﻿---
-format_version: "10"
+format_version: 10
 pipelines:
   hello_app:
     group: java-spring-apps
