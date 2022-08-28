@@ -43,7 +43,7 @@ pipeline {
 
 def deploy(String environment) {
     echo "Deployment of hello-app to ${environment}"
-    sh "kubectl set image deployment hello-app-${environment} hello-app-${environment}-pod kristianskokars/hello-app:latest"
+    // sh "kubectl set image deployment hello-app-${environment} hello-app-${environment}-pod kristianskokars/hello-app:latest"
 }
 
 def test(String environment) {
@@ -58,7 +58,7 @@ def test(String environment) {
         sh "docker rm -f api_test_executor_${environment}"
         publishHTML([
             allowMissing: false,
-            alwaysLinkToLastBUild: false,
+            alwaysLinkToLastBuild: false,
             keepAll: false,
             reportDir: '',
             reportFiles: 'report_${environment}.html',
